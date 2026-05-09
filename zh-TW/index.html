@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<!--
+  Nexray — Pages download site template.
+
+  Rendered by the release workflow (`.github/workflows/release.yml`)
+  via `envsubst` on every `v*.*.*` tag. The publish job exports the
+  following variables before substitution:
+
+    VERSION       e.g. "v0.0.1"
+    PUBLISH_REPO  "andrewfullstack/Nexray-App"
+    BASE          full release-asset URL prefix
+    DMG_ARM       macOS arm64 dmg filename
+    DEB           Linux x86_64 deb filename
+    MSI           Windows x86_64 MSI installer filename
+
+  envsubst is invoked with a whitelist of those variable names so any
+  other `$` in the file (none right now, but future maintainers
+  beware) is left intact.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexray — 現代 VLESS 代理客戶端</title>
+<meta name="description" content="適用於 macOS、Windows、Linux 的現代輕量 VLESS+REALITY / VLESS+WS+TLS / Trojan+TLS / VMess+TLS 代理客戶端。">
+<meta property="og:title" content="Nexray — 現代 VLESS 代理客戶端">
+<meta property="og:description" content="支援 VLESS+REALITY、VLESS+WS+TLS、Trojan+TLS 與 VMess+TLS。系統列圖示般簡潔,核心級效能。">
+<meta property="og:type" content="website">
+<style>
+  :root {
+    --bg:        #0b0e14;
+    --bg-card:   rgba(28, 34, 42, 0.72);
+    --bg-input:  rgba(13, 17, 23, 0.85);
+    --fg:        #ecf2f9;
+    --fg-2:      #a5b1c0;
+    --fg-3:      #6b7785;
+    --accent:    #4f8aff;
+    --accent-2:  #7c5dff;
+    --green:     #4ad29c;
+    --border:    rgba(255, 255, 255, 0.07);
+    --radius-md: 12px;
+    --radius-sm: 8px;
+    --mono: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+    background:
+      radial-gradient(1200px 800px at 75% -10%, rgba(124, 93, 255, 0.10), transparent 60%),
+      radial-gradient(900px 600px at -10% 110%, rgba(79, 138, 255, 0.08), transparent 60%),
+      var(--bg);
+    color: var(--fg);
+    min-height: 100vh;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.005em;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { color: var(--accent-2); }
+  .container { max-width: 980px; margin: 0 auto; padding: 0 1.5rem; }
+
+  header { text-align: center; padding: 5.5rem 0 3rem; }
+  .brand-mark {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    font-size: 1.6rem; font-weight: 700;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .version-pill {
+    display: inline-block; margin-top: 1.5rem;
+    padding: 0.3rem 0.75rem;
+    background: rgba(79, 138, 255, 0.15);
+    border: 1px solid rgba(79, 138, 255, 0.30);
+    border-radius: 999px;
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    color: var(--accent);
+  }
+  h1 {
+    margin-top: 1rem;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .tagline {
+    margin-top: 1rem;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    color: var(--fg-2);
+    max-width: 560px; margin-left: auto; margin-right: auto;
+  }
+  .cta-row {
+    margin-top: 2.5rem;
+    display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap;
+  }
+  .cta {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.85rem 1.5rem;
+    border-radius: var(--radius-md);
+    font-weight: 600; font-size: 1rem;
+    text-decoration: none;
+    transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+  }
+  .cta-primary {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+    color: #fff;
+    box-shadow: 0 8px 24px rgba(79, 138, 255, 0.28);
+  }
+  .cta-primary:hover {
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 12px 32px rgba(79, 138, 255, 0.40);
+  }
+  .cta-secondary {
+    background: var(--bg-card);
+    color: var(--fg);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+  }
+  .cta-secondary:hover { color: var(--fg); background: rgba(255,255,255,0.06); }
+
+  section { margin: 4rem 0; }
+  section h2 {
+    font-size: 1.5rem; font-weight: 600; margin-bottom: 1.25rem;
+    letter-spacing: -0.01em;
+  }
+
+  .platform-grid, .feature-grid {
+    display: grid;
+    gap: 0.85rem;
+  }
+  .platform-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .feature-grid  { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1.25rem 1.4rem;
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+  }
+  .card h3 {
+    font-size: 1rem; font-weight: 600; margin-bottom: 0.35rem; color: var(--fg);
+  }
+  .card .meta {
+    font-size: 0.82rem; color: var(--fg-3);
+    margin-bottom: 0.85rem;
+  }
+  .download-link {
+    display: block;
+    margin-top: 0.4rem;
+    padding: 0.55rem 0.7rem;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    word-break: break-all;
+    color: var(--accent);
+    transition: background 120ms ease;
+  }
+  .download-link:hover { background: rgba(79, 138, 255, 0.10); color: var(--accent-2); }
+
+  .feature p { color: var(--fg-2); font-size: 0.92rem; line-height: 1.55; }
+
+  footer {
+    margin: 5rem 0 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    color: var(--fg-3); font-size: 0.85rem;
+    text-align: center;
+  }
+  footer a { color: var(--fg-2); }
+  footer a:hover { color: var(--accent); }
+  footer .mono { font-family: var(--mono); }
+
+  /* Top-of-page language switcher. Absolute paths (`/Nexray-App/...`)
+     keep the same set of links working from `/index.html` and from any
+     locale subdirectory without per-file path adjustments. */
+  .lang-switcher {
+    display: flex; justify-content: center; gap: 0.4rem;
+    padding: 1.25rem 0 0;
+    flex-wrap: wrap;
+  }
+  .lang-switcher a {
+    font-size: 0.78rem;
+    padding: 0.25rem 0.6rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--fg-2);
+    text-decoration: none;
+    transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
+  }
+  .lang-switcher a:hover {
+    color: var(--fg);
+    background: rgba(255,255,255,0.05);
+  }
+  .lang-switcher a.active {
+    color: var(--fg);
+    border-color: rgba(79, 138, 255, 0.45);
+    background: rgba(79, 138, 255, 0.12);
+  }
+</style>
+</head>
+<body>
+<nav class="lang-switcher" aria-label="語言">
+  <a href="/Nexray-App/" hreflang="en">EN</a>
+  <a href="/Nexray-App/zh-CN/" hreflang="zh-CN">简</a>
+  <a href="/Nexray-App/zh-TW/" class="active" hreflang="zh-TW">繁</a>
+  <a href="/Nexray-App/ru/" hreflang="ru">RU</a>
+</nav>
+
+<div class="container">
+
+<header>
+  <div class="brand-mark">⚡ Nexray</div>
+  <div class="version-pill">v3.2.7</div>
+  <h1>現代 VLESS 代理客戶端。</h1>
+  <p class="tagline">支援 VLESS+REALITY、VLESS+WS+TLS、Trojan+TLS 與 VMess+TLS。系統列圖示般簡潔,核心級效能。</p>
+  <div class="cta-row">
+    <a id="primary-cta" class="cta cta-primary" href="#downloads">下載</a>
+    <a class="cta cta-secondary" href="https://github.com/andrewfullstack/Nexray-App/releases">所有版本</a>
+  </div>
+</header>
+
+<section id="downloads">
+  <h2>下載</h2>
+  <div class="platform-grid">
+    <div class="card" data-os="mac-arm">
+      <h3>macOS</h3>
+      <div class="meta">Apple Silicon · M 系列晶片</div>
+      <a class="download-link" href="https://github.com/andrewfullstack/Nexray-App/releases/download/v3.2.7/Nexray_mac_3.2.7_aarch64.dmg">Nexray_mac_3.2.7_aarch64.dmg</a>
+    </div>
+    <div class="card" data-os="linux">
+      <h3>Linux</h3>
+      <div class="meta">x86_64 · Debian / Ubuntu</div>
+      <a class="download-link" href="https://github.com/andrewfullstack/Nexray-App/releases/download/v3.2.7/Nexray_linux_3.2.7_amd64.deb">Nexray_linux_3.2.7_amd64.deb</a>
+    </div>
+    <div class="card" data-os="windows">
+      <h3>Windows</h3>
+      <div class="meta">x86_64 · MSI 安裝程式</div>
+      <a class="download-link" href="https://github.com/andrewfullstack/Nexray-App/releases/download/v3.2.7/Nexray_win_3.2.7_x64_en-US.msi">Nexray_win_3.2.7_x64_en-US.msi</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>首次啟動</h2>
+  <p style="color: var(--fg-2); font-size: 0.92rem; margin-bottom: 1rem;">
+    目前的安裝包未經程式碼簽署。macOS 首次會拒絕開啟
+    <code style="font-family: var(--mono);">.dmg</code>,Windows 也會以 SmartScreen 攔截
+    <code style="font-family: var(--mono);">.msi</code>。兩者都可以在數秒內繞過:
+  </p>
+  <div class="feature-grid">
+    <div class="card feature">
+      <h3>macOS — 清除隔離標記</h3>
+      <p>
+        將 <code style="font-family: var(--mono);">Nexray.app</code> 拖進
+        <code style="font-family: var(--mono);">/Applications</code> 後,在終端機執行一次
+        (會提示輸入密碼):
+      </p>
+<pre style="background: rgba(0,0,0,0.4); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.75rem; font-family: var(--mono); font-size: 0.82rem; overflow-x: auto; margin-top: 0.5rem; color: var(--fg);">sudo xattr -dr com.apple.quarantine /Applications/Nexray.app</pre>
+      <p style="margin-top: 0.5rem; font-size: 0.85rem;">
+        之後正常點兩下開啟即可。覆蓋更新後只要還在同一路徑,無須再次執行。
+      </p>
+    </div>
+    <div class="card feature">
+      <h3>Windows — 仍要執行</h3>
+      <p>
+        點兩下 <code style="font-family: var(--mono);">.msi</code>,SmartScreen 會顯示
+        「Windows 已保護您的電腦」。按 <strong>其他資訊</strong> →
+        <strong>仍要執行</strong>。每個版本只在首次執行時顯示這個警告。
+      </p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>核心特性</h2>
+  <div class="feature-grid">
+    <div class="card feature">
+      <h3>僅支援現代協定</h3>
+      <p>VLESS(CDN-WS 或 REALITY)、Trojan(TCP+TLS) 與 VMess(TCP+TLS,僅 AEAD)。拒絕 Shadowsocks、vmess/trojan 的 WebSocket 變體,以及任何過時或預設不安全的協定組合 — 這是設計初衷。</p>
+    </div>
+    <div class="card feature">
+      <h3>訂閱匯入</h3>
+      <p>貼上任意 Shadowrocket 風格的訂閱連結。伺服器依來源自動分組並測延遲,一鍵匯入。</p>
+    </div>
+    <div class="card feature">
+      <h3>智慧分流</h3>
+      <p>內建 <span class="meta" style="font-family: var(--mono);">geosite:cn</span> 規則,加上你自己的 <span class="meta" style="font-family: var(--mono);">rules.conf</span>。國內站點直連、廣告攔截、其餘流量走代理。</p>
+    </div>
+    <div class="card feature">
+      <h3>TUN 全域接管</h3>
+      <p>核心級封包擷取,涵蓋不支援 SOCKS 的應用程式。離開時自動還原路由,不留殘餘設定。</p>
+    </div>
+    <div class="card feature">
+      <h3>自動選最佳伺服器</h3>
+      <p>每個群組的「自動」開關會持續把作用中的設定固定在訂閱中延遲最低的伺服器。</p>
+    </div>
+    <div class="card feature">
+      <h3>五種語言</h3>
+      <p>English、简体中文、繁體中文、Русский。系統語言自動辨識,亦可在設定中手動切換。</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Nexray <span class="mono">v3.2.7</span> · <a href="https://github.com/andrewfullstack/Nexray-App">GitHub</a> · 專屬授權
+</footer>
+
+</div>
+
+<script>
+  // Best-effort OS detection so the primary CTA points at the right
+  // installer. Falls back to the #downloads anchor if anything we
+  // sniff is ambiguous — every link is on the page already so the
+  // user always has an out.
+  (function () {
+    var cta = document.getElementById("primary-cta");
+    if (!cta) return;
+    var BASE = "https://github.com/andrewfullstack/Nexray-App/releases/download/v3.2.7";
+    var ua = navigator.userAgent || "";
+    var platform = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || "";
+    var setCta = function (href, label) {
+      cta.href = href;
+      cta.textContent = label;
+    };
+
+    if (/Mac/i.test(platform) || /Mac OS X/i.test(ua)) {
+      // Only an Apple Silicon build is published; Intel-Mac visitors
+      // see the Apple Silicon CTA, but the in-page card list still
+      // shows what's actually available. (Future Intel build — drop
+      // the `bundles: dmg` slot back into the matrix and re-add the
+      // INTEL filename to the workflow.)
+      setCta(BASE + "/Nexray_mac_3.2.7_aarch64.dmg", "下載 macOS 版本(Apple Silicon)");
+    } else if (/Win/i.test(platform) || /Windows/i.test(ua)) {
+      setCta(BASE + "/Nexray_win_3.2.7_x64_en-US.msi", "下載 Windows 版本");
+    } else if (/Linux/i.test(platform) || /Linux/i.test(ua)) {
+      setCta(BASE + "/Nexray_linux_3.2.7_amd64.deb", "下載 Linux 版本(.deb)");
+    }
+  })();
+</script>
+</body>
+</html>
